@@ -3,7 +3,16 @@ const Product = require("../models/product.model");
 const router = express.Router();
 router.get("/", async (req, res) => {
   try {
-    let query = { $and: [{ product_color: { $eq: "Violet" } }] };
+    // let filter = { $and: [{ product_color: { $eq: "Red" } }, { product_size: { $eq: "M" } }] };
+    let filter = { $and: [] };
+    if (req.query.color) { 
+      filter['$and'].push({ product_color: { $eq: req.query.color } })
+    }
+    if (req.query.size) { 
+      filter['$and'].push({ product_size: { $eq: req.query.size } })
+    }
+ 
+    console.log(filter['$and'])
     let page = req.query.page || 1;
     let perPage = req.query.perPage || 10;
     let skip = (page - 1) * perPage;
@@ -16,7 +25,7 @@ router.get("/", async (req, res) => {
     let totalPage = Math.ceil(
       (await Product.find().countDocuments()) / perPage
     );
-    const product = await Product.find(query)
+    const product = await Product.find(filter)
       .skip(skip)
       .limit(perPage)
       .sort(sortData);

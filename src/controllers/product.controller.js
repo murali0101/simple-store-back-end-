@@ -6,13 +6,15 @@ router.get("/", async (req, res) => {
     // let filter = { $and: [{ product_color: { $eq: "Red" } }, { product_size: { $eq: "M" } }] };
     let filter = {};
     if (req.query.color) {
+      filter["$and"]=[]
       filter["$and"].push({ product_color: { $eq: req.query.color } });
     }
     if (req.query.size) {
+      filter["$and"]=[]
       filter["$and"].push({ product_size: { $eq: req.query.size } });
     }
 
-    console.log(filter["$and"]);
+    // console.log(filter["$and"]);
     let page = req.query.page || 1;
     let perPage = req.query.perPage || 10;
     let skip = (page - 1) * perPage;

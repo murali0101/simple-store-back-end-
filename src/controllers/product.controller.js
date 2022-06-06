@@ -4,13 +4,13 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     // let filter = { $and: [{ product_color: { $eq: "Red" } }, { product_size: { $eq: "M" } }] };
-    let filter = {};
+    let filter = (req.query.color || req.query.size)?{$and:[]}:{};
     if (req.query.color) {
-      filter["$and"]=[]
+      
       filter["$and"].push({ product_color: { $eq: req.query.color } });
     }
     if (req.query.size) {
-      filter["$and"]=[]
+      
       filter["$and"].push({ product_size: { $eq: req.query.size } });
     }
 

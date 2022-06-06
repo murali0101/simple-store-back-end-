@@ -7,6 +7,7 @@ app.use(express.json());
 //   next();
 // });
 app.use(cors());
+const productController = require("./controllers/product.controller");
 
 app.get("/", (req, res) => {
   try {
@@ -15,5 +16,5 @@ app.get("/", (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
+app.use('/product',productController)
 module.exports = app;
